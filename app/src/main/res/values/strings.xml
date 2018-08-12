@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">BookInventory</string>
+    <string name="text_button">Add default test data</string>
+    <string name="num_rows_message">The books table contains</string>
+    <string name="books">books</string>
+    <string name="newlines">\n\n</string>
+    <string name="space">&#160;</string>
+</resources>
