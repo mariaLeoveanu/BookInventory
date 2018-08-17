@@ -1,9 +1,11 @@
 package com.example.android.bookinventory.data;
 
+import android.app.AlertDialog;
 import android.content.ContentProvider;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -11,7 +13,9 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.example.android.bookinventory.EditorActivity;
 
 
 public class BookProvider extends ContentProvider{
@@ -88,27 +92,32 @@ public class BookProvider extends ContentProvider{
 
         String name = values.getAsString(InventoryContract.BookEntry.COLUMN_NAME_BOOK);
         if(name == null || name.isEmpty()){
-            throw new IllegalArgumentException("Book needs a valid name");
+            Toast.makeText(getContext(), "Please enter a book name", Toast.LENGTH_SHORT).show();
+            return null;
         }
 
         Integer price = values.getAsInteger(InventoryContract.BookEntry.COLUMN_PRICE_BOOK);
         if(price == null || price < 0){
-            throw new IllegalArgumentException("Book needs a valid price");
+            Toast.makeText(getContext(), "Please enter a price", Toast.LENGTH_SHORT).show();
+            return null;
         }
 
         Integer quantity = values.getAsInteger(InventoryContract.BookEntry.COLUMN_QUANT_BOOK);
         if(quantity == null || quantity < 0){
-            throw new IllegalArgumentException("Book needs a valid quantity");
+            Toast.makeText(getContext(), "Please enter a quantity", Toast.LENGTH_SHORT).show();
+            return null;
         }
 
         String supplier = values.getAsString(InventoryContract.BookEntry.COLUMN_SUPPLIER_NAME_BOOK);
         if(supplier == null || supplier.isEmpty()){
-            throw new IllegalArgumentException("Book needs a valid supplier name");
+            Toast.makeText(getContext(), "Please enter a supplier name", Toast.LENGTH_SHORT).show();
+            return null;
         }
 
         String supplierPhone = values.getAsString(InventoryContract.BookEntry.COLUMN_SUPPLIER_PHONE_NUMBER_BOOK);
         if(supplierPhone == null || supplierPhone.isEmpty()){
-            throw new IllegalArgumentException("Book needs a valid supplier phone number");
+            Toast.makeText(getContext(), "Please enter a phone number", Toast.LENGTH_SHORT).show();
+            return null;
         }
         long newRowId = db.insert(InventoryContract.BookEntry.TABLE_NAME, null,values);
         if(newRowId == -1){
@@ -166,33 +175,33 @@ public class BookProvider extends ContentProvider{
         if(values.containsKey(InventoryContract.BookEntry.COLUMN_NAME_BOOK)
                 && (values.getAsString(InventoryContract.BookEntry.COLUMN_NAME_BOOK) == null
                 || values.getAsString(InventoryContract.BookEntry.COLUMN_NAME_BOOK).isEmpty())){
-            throw new IllegalArgumentException("Book needs a valid name");
+            Toast.makeText(getContext(), "Please enter a valid book title", Toast.LENGTH_SHORT).show();
         }
 
 
         if(values.containsKey(InventoryContract.BookEntry.COLUMN_PRICE_BOOK)
                 && (values.getAsInteger(InventoryContract.BookEntry.COLUMN_PRICE_BOOK) == null
                 || values.getAsInteger(InventoryContract.BookEntry.COLUMN_PRICE_BOOK) < 0)){
-            throw new IllegalArgumentException("Book needs a valid price");
+            Toast.makeText(getContext(), "Please enter a valid price", Toast.LENGTH_SHORT).show();
         }
 
         if(values.containsKey(InventoryContract.BookEntry.COLUMN_QUANT_BOOK)
                 && (values.getAsInteger(InventoryContract.BookEntry.COLUMN_QUANT_BOOK) == null
                 || values.getAsInteger(InventoryContract.BookEntry.COLUMN_QUANT_BOOK) < 0)){
-            throw new IllegalArgumentException("Book needs a valid quantity");
-        }
+            Toast.makeText(getContext(), "Please enter a valid quantity", Toast.LENGTH_SHORT).show();
+;        }
 
         if(values.containsKey(InventoryContract.BookEntry.COLUMN_SUPPLIER_NAME_BOOK)
                 && (values.getAsString(InventoryContract.BookEntry.COLUMN_SUPPLIER_NAME_BOOK) == null
                 || values.getAsString(InventoryContract.BookEntry.COLUMN_SUPPLIER_NAME_BOOK).isEmpty())){
-            throw new IllegalArgumentException("Book needs a valid supplier name");
+            Toast.makeText(getContext(), "Please enter a valid supplier name", Toast.LENGTH_SHORT).show();
         }
 
         if(values.containsKey(InventoryContract.BookEntry.COLUMN_SUPPLIER_PHONE_NUMBER_BOOK)
                 && (values.getAsString(InventoryContract.BookEntry.COLUMN_SUPPLIER_PHONE_NUMBER_BOOK) == null
                 || values.getAsString(InventoryContract.BookEntry.COLUMN_SUPPLIER_PHONE_NUMBER_BOOK).isEmpty()
-                || values.getAsString(InventoryContract.BookEntry.COLUMN_SUPPLIER_PHONE_NUMBER_BOOK).matches("[0-9]+"))){
-            throw new IllegalArgumentException("Book needs a valid supplier phone number");
+                || !values.getAsString(InventoryContract.BookEntry.COLUMN_SUPPLIER_PHONE_NUMBER_BOOK).matches("[0-9]+"))){
+            Toast.makeText(getContext(), "Please enter a valid phone number", Toast.LENGTH_SHORT).show();
         }
         int rowsUpdated = db.update(InventoryContract.BookEntry.TABLE_NAME, values, selection, selectionArgs);
         if(rowsUpdated != 0){

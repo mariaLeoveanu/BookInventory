@@ -45,7 +45,7 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         });
         mAdapter = new BookCursorAdapter(this, null);
         mBookDbHelper = new BookDbHelper(this);
-        ListView listView = findViewById(R.id.list_view);
+        ListView listView =  findViewById(R.id.list_view);
         listView.setAdapter(mAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

@@ -18,8 +18,8 @@ public class BookDbHelper extends SQLiteOpenHelper {
         String SQL_CREATE_PETS_TABLE =  "CREATE TABLE " + InventoryContract.BookEntry.TABLE_NAME + " ("
                 + InventoryContract.BookEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + InventoryContract.BookEntry.COLUMN_NAME_BOOK + " TEXT NOT NULL, "
-                + InventoryContract.BookEntry.COLUMN_PRICE_BOOK + " INTEGER, "
-                + InventoryContract.BookEntry.COLUMN_QUANT_BOOK + " INTEGER DEFAULT 0, "
+                + InventoryContract.BookEntry.COLUMN_PRICE_BOOK + " INTEGER NOT NULL,"
+                + InventoryContract.BookEntry.COLUMN_QUANT_BOOK + " INTEGER NOT NULL, "
                 + InventoryContract.BookEntry.COLUMN_SUPPLIER_NAME_BOOK + " TEXT NOT NULL DEFAULT 0, "
                 + InventoryContract.BookEntry.COLUMN_SUPPLIER_PHONE_NUMBER_BOOK + " TEXT);";
 

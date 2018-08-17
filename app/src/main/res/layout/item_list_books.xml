@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
@@ -8,7 +10,7 @@
         android:id="@+id/tv_product_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Product name"
+        tools:text="Product name"
         android:textSize="23dp"
         android:layout_toLeftOf="@id/sell_button"
         android:layout_alignParentLeft="true"/>
@@ -17,16 +19,16 @@
         android:id="@+id/tv_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Price"
+        tools:text="Price"
         android:layout_below="@id/tv_product_name"
         android:textSize="17dp" />
 
     <TextView
-        android:id="@+id/tv_quantity"
+        android:id="@+id/et_quantity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:text="100000"
+        tools:text="100000"
         android:textSize="17sp"
         android:layout_alignBaseline="@id/tv_price"
         android:layout_below="@id/tv_product_name"
@@ -35,6 +37,7 @@
 
 
     <Button
+        android:focusable="false"
         android:id="@+id/sell_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
