@@ -30,10 +30,12 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
     private static final int BOOK_EDITOR_LOADER = 0;
     String mName;
-    Integer mPrice;
-    Integer mQuantity;
+    String mPrice;
+    String mQuantity;
     String mSupplier;
     String mPhoneNumber;
+    int quantInt;
+    int priceInt;
     private BookDbHelper dbHelper = new BookDbHelper(this);
     private EditText mNameEditText;
     private EditText mPriceEditText;
@@ -110,21 +112,21 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     }
 
     private void updateQuantity(View view) {
-        mQuantity = 0;
-        String string = mQuantityEditText.getText().toString().trim();
-        if (!string.isEmpty()) {
-            mQuantity = Integer.parseInt(string);
+        int quant = 0;
+        mQuantity = mQuantityEditText.getText().toString().trim();
+        if (!mQuantity.isEmpty()) {
+            quant = Integer.parseInt(mQuantity);
             switch (view.getId()) {
                 case R.id.b_decrease:
-                    if (mQuantity > 0) {
-                        mQuantity--;
+                    if (quant > 0) {
+                        quant--;
                     }
                     break;
                 case R.id.b_increase:
-                    mQuantity++;
+                    quant++;
             }
         }
-        mQuantityEditText.setText(String.valueOf(mQuantity));
+        mQuantityEditText.setText(String.valueOf(quant));
         mBookHasChanged = true;
     }
 
@@ -229,6 +231,8 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         mName = mNameEditText.getText().toString().trim();
         mSupplier = mSupplierNameEditText.getText().toString().trim();
         mPhoneNumber = mPhoneNumberEditText.getText().toString().trim();
+        mPrice = mPriceEditText.getText().toString().trim();
+        mQuantity = mQuantityEditText.getText().toString().trim();
         if (TextUtils.isEmpty(mName)
                 && mPrice == null
                 && mQuantity == null
@@ -239,33 +243,33 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             return;
         }
 
-        try {
-            mPrice = Integer.parseInt(mPriceEditText.getText().toString().trim());
-        } catch (NumberFormatException ex) {
-            Toast.makeText(this, "Please enter a price.",
+        if (TextUtils.isEmpty(mPrice)) {
+            Toast.makeText(this, "Complete the price field",
                     Toast.LENGTH_SHORT).show();
             return;
+        } else {
+            priceInt = Integer.parseInt(mPrice);
+            contentValues.put(InventoryContract.BookEntry.COLUMN_PRICE_BOOK, priceInt);
         }
-        try {
-            mQuantity = Integer.parseInt(mQuantityEditText.getText().toString().trim());
-        } catch (NumberFormatException ex) {
-            Toast.makeText(this, "Please enter a quantity.",
+
+        if (TextUtils.isEmpty(mQuantity)) {
+            Toast.makeText(this, "Complete the quantity field",
                     Toast.LENGTH_SHORT).show();
             return;
+        } else {
+            quantInt = Integer.parseInt(mQuantity);
+            contentValues.put(InventoryContract.BookEntry.COLUMN_QUANT_BOOK, quantInt);
         }
-
-
 
         contentValues.put(InventoryContract.BookEntry.COLUMN_NAME_BOOK, mName);
-        contentValues.put(InventoryContract.BookEntry.COLUMN_PRICE_BOOK, mPrice);
-        contentValues.put(InventoryContract.BookEntry.COLUMN_QUANT_BOOK, mQuantity);
         contentValues.put(InventoryContract.BookEntry.COLUMN_SUPPLIER_NAME_BOOK, mSupplier);
         contentValues.put(InventoryContract.BookEntry.COLUMN_SUPPLIER_PHONE_NUMBER_BOOK, mPhoneNumber);
+
         if (bookUri == null) {
             Uri uri = getContentResolver().insert(InventoryContract.BookEntry.CONTENT_URI, contentValues);
             if (uri == null) {
                 //Toast.makeText(this, "Insert item failed",
-                        //Toast.LENGTH_LONG).show();
+                //Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(this, "Insert item successful",
                         Toast.LENGTH_LONG).show();
@@ -275,7 +279,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             int rowsAffected = getContentResolver().update(bookUri, contentValues, null, null);
             if (rowsAffected == 0) {
                 //Toast.makeText(this, "Error updating the item",
-                        //Toast.LENGTH_LONG).show();
+                //Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(this, "Item updated",
                         Toast.LENGTH_LONG).show();
@@ -326,14 +330,14 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             int phoneNumberColumnIndex = data.getColumnIndex(InventoryContract.BookEntry.COLUMN_SUPPLIER_PHONE_NUMBER_BOOK);
 
             mName = data.getString(nameColumnIndex);
-            mPrice = data.getInt(priceColumnIndex);
-            mQuantity = data.getInt(quantityColumnIndex);
+            mPrice = data.getString(priceColumnIndex);
+            mQuantity = data.getString(quantityColumnIndex);
             mSupplier = data.getString(supplierColumnIndex);
             mPhoneNumber = data.getString(phoneNumberColumnIndex);
 
             mNameEditText.setText(mName);
-            mPriceEditText.setText(String.valueOf(mPrice));
-            mQuantityEditText.setText(String.valueOf(mQuantity));
+            mPriceEditText.setText(mPrice);
+            mQuantityEditText.setText(mQuantity);
             mSupplierNameEditText.setText(mSupplier);
             mPhoneNumberEditText.setText(mPhoneNumber);
         }

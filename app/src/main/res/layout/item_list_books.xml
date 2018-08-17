@@ -4,13 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp">
 
     <TextView
         android:id="@+id/tv_product_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="Product name"
+        android:textStyle="bold"
+        android:layout_marginLeft="20dp"
+        android:textColor="@color/black"
         android:textSize="23dp"
         android:layout_toLeftOf="@id/sell_button"
         android:layout_alignParentLeft="true"/>
@@ -20,6 +25,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="Price"
+        android:layout_marginLeft="20dp"
+        android:textColor="@color/black"
         android:layout_below="@id/tv_product_name"
         android:textSize="17dp" />
 
@@ -30,6 +37,7 @@
         android:layout_marginLeft="10dp"
         tools:text="100000"
         android:textSize="17sp"
+        android:textColor="@color/black"
         android:layout_alignBaseline="@id/tv_price"
         android:layout_below="@id/tv_product_name"
         android:layout_toRightOf="@id/tv_price"

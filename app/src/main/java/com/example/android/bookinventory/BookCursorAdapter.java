@@ -15,14 +15,12 @@ import android.widget.Toast;
 
 import com.example.android.bookinventory.data.InventoryContract;
 
-/**
- * Created by Maria on 16.08.2018.
- */
 
 public class BookCursorAdapter extends CursorAdapter {
 
 
     TextView quantityView;
+
     public BookCursorAdapter(Context context, Cursor c) {
         super(context, c);
     }
@@ -50,7 +48,7 @@ public class BookCursorAdapter extends CursorAdapter {
             @Override
             public void onClick(View v) {
                 if (quantity == 0) {
-                    Toast.makeText(context,"Out of stock", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "Out of stock", Toast.LENGTH_LONG).show();
                     return;
                 } else {
                     ContentValues cv = new ContentValues();
@@ -63,7 +61,7 @@ public class BookCursorAdapter extends CursorAdapter {
 
         nameView.setText(name);
         priceView.setText(price + " lei");
-        if(quantity == 0){
+        if (quantity == 0) {
             quantityView.setText("Out of stock");
         } else {
             quantityView.setText(quantity + " items left");

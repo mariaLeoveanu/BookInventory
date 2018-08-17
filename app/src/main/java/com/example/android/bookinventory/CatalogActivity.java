@@ -8,28 +8,30 @@ import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+
 import com.example.android.bookinventory.data.BookDbHelper;
 import com.example.android.bookinventory.data.InventoryContract.BookEntry;
 
 
 public class CatalogActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private BookDbHelper mBookDbHelper;
-    BookCursorAdapter mAdapter;
-    private static final int BOOK_LOADER = 0;
     public static final String DEFAULT_BOOK_NAME = "Jane Austen";
     public static final int DEFAULT_BOOK_PRICE = 29;
     public static final int DEFAULT_QUANTITY = 3;
     public static final String DEFAULT_SUPPLIER_NAME = "Penguin English Library";
     public static final String DEFAULT_PHONE_NUMBER = "45679362291";
+    private static final int BOOK_LOADER = 0;
+    BookCursorAdapter mAdapter;
+    private BookDbHelper mBookDbHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +47,7 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         });
         mAdapter = new BookCursorAdapter(this, null);
         mBookDbHelper = new BookDbHelper(this);
-        ListView listView =  findViewById(R.id.list_view);
+        ListView listView = findViewById(R.id.list_view);
         listView.setAdapter(mAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -55,11 +57,11 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
                 startActivity(intent);
             }
         });
-        listView.setEmptyView(findViewById(R.id.empty_title_text));
+        listView.setEmptyView(findViewById(R.id.empty_layout));
         getLoaderManager().initLoader(BOOK_LOADER, null, this);
     }
 
-    public void insertBook (){
+    public void insertBook() {
 
         SQLiteDatabase db = mBookDbHelper.getReadableDatabase();
 
@@ -78,6 +80,7 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         getMenuInflater().inflate(R.menu.menu_catalog, menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -85,14 +88,11 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
                 insertBook();
                 return true;
             case R.id.action_delete_all_entries:
-                getContentResolver().delete(BookEntry.CONTENT_URI,null, null);
+                getContentResolver().delete(BookEntry.CONTENT_URI, null, null);
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
-
-
-
 
 
     @Override
